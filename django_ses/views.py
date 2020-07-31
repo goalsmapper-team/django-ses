@@ -301,6 +301,26 @@ def handle_bounce(request):
                     delivery_obj=delivery_obj,
                     raw_message=raw_json,
                 )
+            elif event_type == 'Open':
+                # Open
+                open_obj = message.get('open', {})
+
+                signals.open_received.send(
+                    sender=handle_bounce,
+                    mail_obj=mail_obj,
+                    open_obj=open_obj,
+                    raw_message=raw_json,
+                )
+            elif event_type == 'Click':
+                # Click
+                click_obj = message.get('click', {})
+
+                signals.clicked_received.send(
+                    sender=handle_bounce,
+                    mail_obj=mail_obj,
+                    click_obj=click_obj,
+                    raw_message=raw_json,
+                )
             else:
                 # We received an unknown notification type. Just log and
                 # ignore it.
